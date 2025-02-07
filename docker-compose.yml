@@ -1,0 +1,25 @@
+x-common-configure: &common-configure
+  image: heal2017/centos7
+  environment:
+    HOSTNAME: "${HOSTNAME}"
+  build:
+    context: ./server
+  volumes:
+    - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  privileged: true
+  networks:
+    - app_net
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/24
+
+services:
+  centos7-1:
+    <<: *common-configure
+    container_name: centos7-1
+
