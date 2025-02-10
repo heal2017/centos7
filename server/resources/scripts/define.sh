@@ -22,6 +22,7 @@ BlueBold="${Blue//0;/1;}"
 PurpleBold="${Purple//0;/1;}"
 CyanBold="${Cyan//0;/1;}"
 WhiteBold="${White//0;/1;}"
+DCBold="${DC//0;/1;}"
 
 getTime() {
     echo $(date '+%H:%M:%S')
@@ -30,13 +31,19 @@ getTime() {
 
 information() {
     local ctime=$(getTime)
-    echo -en "[${WhiteBold} INFO ${DC}] ${CyanBold}${ctime} ${DC}$1 ${DC}\n"
+    echo -en "[${WhiteBold} INFO ${DC}] ${CyanBold}${ctime} ${DCBold}$1 ${DC}\n"
+    return 0
+}
+
+warning() {
+    local ctime=$(getTime)
+    echo -en "[${YellowBold} WARN ${DC}] ${CyanBold}${ctime} ${YellowBold}$1 ${DC}\n"
     return 0
 }
 
 success() {
     local ctime=$(getTime)
-    echo -en "[${GreenBold}  OK  ${DC}] ${CyanBold}${ctime} ${DC}$1 ${DC}\n"
+    echo -en "[${GreenBold}  OK  ${DC}] ${CyanBold}${ctime} ${GreenBold}$1 ${DC}\n"
     return 0
 }
 

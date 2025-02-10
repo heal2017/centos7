@@ -14,10 +14,18 @@ TOTAL_GB=$(echo "${RAM_TOTAL}" | awk '{printf("%.1f\n"), $1/1073741824}')
 USED_GB=$(echo "${RAM_TOTAL} ${RAM_AVAIL}" | awk '{printf("%.1f\n"), ($1-$2)/1073741824}')
 USED_PER=$(echo "$RAM_AVAIL $RAM_TOTAL" | awk '{printf("%.1f\n"), ($2-$1)/$2*100}')
 
-information    "HOSTNAME:  ${HOSTNAME}"
-information    "KERNEL:    ${KERNEL}"
-information    "ARCH:      ${ARCH}"
-information    "CPU:       ${CPU}"
-information    "CORES:     ${CORES}"
-information    "RAM:       ${USED_GB}GB/${TOTAL_GB}GB ${USED_PER}%"
+{ \
+information    "HOSTNAME:  ${HOSTNAME}"; \
+information    "KERNEL:    ${KERNEL}"; \
+information    "ARCH:      ${ARCH}"; \
+information    "CPU:       ${CPU}"; \
+information    "CORES:     ${CORES}"; \
+information    "RAM:       ${USED_GB}GB/${TOTAL_GB}GB ${USED_PER}%"; \
+rc=$?; \
+} || :
+if [ "$rc" == "0" ]; then
+    success "info.sh:   run ok"
+else
+    failure "info.sh:   run failed"
+fi
 

@@ -3,6 +3,7 @@ set -Eeuo pipefail
 
 # locale
 localedef -c -f UTF-8 -i zh_CN zh_CN.UTF-8
+
 if [ -e /etc/localtime ]; then
     rm -f /etc/localtime
 fi

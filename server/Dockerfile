@@ -18,10 +18,9 @@ RUN \
     yum install tini -y && \
     yum clean all
 
-ENV RES_PATH="/run/resources"
+ENV RES_PATH="/resources"
 ENV TMP_PATH="/tmp"
 ENV LANG="en_US.UTF-8"
-ENV LC_ALL="en_US.UTF-8"
 ENV USERNAME="john"
 ENV PASSWORD="john"
 ENV UID="501"
@@ -33,10 +32,12 @@ ENV GEOMETRY="1920x1080"
 
 COPY --chmod=755 ./resources ${RES_PATH}
 
-RUN ${RES_PATH}/builds/create_user.sh
-RUN ${RES_PATH}/builds/build.sh
+RUN \
+    . ${RES_PATH}/scripts/define.sh && \
+    . ${RES_PATH}/builds/create_user.sh && \
+    . ${RES_PATH}/builds/build.sh
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
-CMD ["/usr/bin/tini", "-s", "/run/resources/entrypoint.sh"]
+CMD ["/usr/bin/tini", "-s", "/resources/entrypoint.sh"]
 
